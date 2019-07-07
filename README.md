@@ -32,8 +32,7 @@ selecting patch changes in Sunday Keys.
 ### Setup scripts in Ableton:
 - Have ClyphX installed and working in Ableton Live
 - Have Sunday Keys installed and working in Ableton Live
-- Do a `git checkout` of this repo in the folder where you installed the ClyphX scripts
-(usually something like C:\ProgramData\Ableton\Live 10 Intro\Resources\MIDI Remote Scripts\ClyphX)
+- Do a `git checkout` of this repo in the folder where you installed the ClyphX scripts (usually something like C:\ProgramData\Ableton\Live 10 Intro\Resources\MIDI Remote Scripts\ClyphX)
 - Edit `MIDI Resource Scrits\ClyphX\ClyphXUserActions.py` and add the following lines to the bottom of the `__init__` method:
 
 
@@ -44,12 +43,12 @@ selecting patch changes in Sunday Keys.
 to be "note" or "cc", change the MIDI channel number and note number to suit your needs.
 
 
-    # For sundaykeys_relative_patch_select custom User Actions
-    # CONTROL_NAME = MSG_TYPE, MIDI_CHANNEL, NOTE_OR_CC_NUM, CLYPH_ACTION_LIST
-    GNIP_CLIPQUEUE_PREVSONG = note, 10, 44, GNIP_PREVSONG
-    GNIP_CLIPQUEUE_NEXTSONG = note, 10, 45, GNIP_NEXTSONG
-    GNIP_CLIPQUEUE_PREVSCRIPT = note, 10, 46, UP; SCENE 8; PLAY
-    GNIP_CLIPQUEUE_NEXTSCRIPT = note, 10, 47, DOWN; SCENE 8; PLAY
+        # For sundaykeys_relative_patch_select custom User Actions
+        # CONTROL_NAME = MSG_TYPE, MIDI_CHANNEL, NOTE_OR_CC_NUM, CLYPH_ACTION_LIST
+        GNIP_CLIPQUEUE_PREVSONG = note, 10, 44, GNIP_PREVSONG
+        GNIP_CLIPQUEUE_NEXTSONG = note, 10, 45, GNIP_NEXTSONG
+        GNIP_CLIPQUEUE_PREVSCRIPT = note, 10, 46, UP; SCENE 8; PLAY
+        GNIP_CLIPQUEUE_NEXTSCRIPT = note, 10, 47, DOWN; SCENE 8; PLAY
 
 
 ### Setup a Performance with Ableton:
@@ -65,11 +64,11 @@ to be "note" or "cc", change the MIDI channel number and note number to suit you
     - Add these patch change ClyphX scripts to your new tracks like this.  Pressing the play button for these clips should activate the specific instrument.
         
 
-    Track1:IntroSong                Track2:Interlude
-    [] SCENE 8; 2/PLAY 5            [] SCENE 8; 2/PLAY 7
-    [] SCENE 8; 4/PLAY 2            [] SCENE 8; 5/PLAY 3
-    [] SCENE 8; 1/PLAY 1;3/PLAY 3   [] SCENE 8; 2/PLAY 7
-                                    [] SCENE 8; 5/PLAY 3
+            Track1:IntroSong                Track2:Interlude
+            [] SCENE 8; 2/PLAY 5            [] SCENE 8; 2/PLAY 7
+            [] SCENE 8; 4/PLAY 2            [] SCENE 8; 5/PLAY 3
+            [] SCENE 8; 1/PLAY 1;3/PLAY 3   [] SCENE 8; 2/PLAY 7
+                                            [] SCENE 8; 5/PLAY 3
 
 ### Use the patch and song changes
 - Launch Ableton and open your Sunday Keys Set

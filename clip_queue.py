@@ -5,6 +5,7 @@ import tempfile
 CMD_NEXTSONG = 'GNIP_NEXTSONG'
 CMD_PREVSONG = 'GNIP_PREVSONG'
 CMD_SHOW_PATCHES = 'GNIP_SHOW_PATCHES'
+CMD_CREATE = 'GNIP_CREATE'
 
 
 def register(trg):
@@ -25,6 +26,12 @@ def register(trg):
     type(trg).gnip_show_patches = show_patches
     # Register method with ClyphX command
     trg._action_dict[CMD_SHOW_PATCHES] = 'gnip_show_patches'
+
+    trg._parent.log_message('Registering UserAction command:%s from:%s' % (CMD_CREATE, __file__))
+    # Add method from this file to the ClyphXUserActions class
+    type(trg).gnip_create = create
+    # Register method with ClyphX command
+    trg._action_dict[CMD_CREATE] = 'gnip_create'
 
 
 def next_song(self, track, args):
@@ -83,17 +90,60 @@ def show_patches(self, track, args):
     os.system(r'start %s' % f.name)
 
 
+def find_first_avail_slot(track):
+    """Given a track, return the next available slot, starting from the first slot"""
+    for slot in track.clip_slots:
+        if is_slot_avail(slot):
+            return slot
+    return None
+
+
+def is_slot_avail(slot):
+    """Given a slot, return whether it is available to have something written to it or not"""
+    if slot.clip is None:
+        return True
+    if len(slot.clip.name) == 0:
+        return True
+    return False
+
+
+# TODO: try it with Sunday Keys next for testing
+
+
+def create(self, track, args):
+    """Write a ClyphX script at the first available slot in the rightmost track that plays the selected clip"""
+    tracks = self.song().tracks
+    scenes = self.song().scenes
+
+    view = self.song().view
+    track_idx = list(tracks).index(view.selected_track)
+    scene_idx = list(scenes).index(view.selected_scene)
+
+    # TODO: Make this more generic. This script is specific to Sunday Keys.
+    new_script = '[] scene 8; %d/play %d' % (track_idx + 1, scene_idx + 1)
+
+    output_track = tracks[-1]
+    output_slot = find_first_avail_slot(output_track)
+    if output_slot is None:
+        self._parent.show_message('ERROR: Could not find slot on track "%s" to write result to' % output_track.name)
+        return
+    if output_slot.clip is None:
+        output_slot.create_clip(1)
+    self._parent.show_message('Writing ClyphX script to first available slot on track "%s"' % output_track.name)
+    output_slot.clip.name = new_script
+
+
 #################### Supporting code
 def _get_clip_names_from_clyphx_snippet(clip_name_table, script):
-    """given a ClyphX script string containing "#/PLAY #" type commands, return a list of clip names looked up from the track/scene references"""
+    """given a ClyphX script string containing "#/play #" type commands, return a list of clip names looked up from the track/scene references"""
     if not script.strip().startswith('['):
         return []
+    regex = re.compile(r'(\d+)\s*/\s*PLAY\s*(\d+)', re.IGNORECASE)
     cmds = script.split(';')
     clip_names = []
     for cmd in cmds:
         cmd = cmd.strip()
-        regex = r'(\d+)\s*/\s*PLAY\s*(\d+)'
-        match = re.search(regex, cmd)
+        match = regex.search(cmd)
         if match:
             trk_idx, scene_idx = match.groups()
             trk_idx = int(trk_idx) - 1

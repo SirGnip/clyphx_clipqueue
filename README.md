@@ -85,3 +85,5 @@ will activate the first instrument of the first song.
 ### Known Issues
 - Very complex setup.  Specific to Sunday Keys.  Make more generic instructions.
 - If the `GNIP_CLIPQUEUE_NEXTSCRIPT` action is triggered and the cursor moves onto an empty clip with no name, patch selection will fail until you do a next/prev song.
+
+[![HitCount](http://hits.dwyl.com/SirGnip/clyphx_clipqueue.svg)](http://hits.dwyl.com/SirGnip/clyphx_clipqueue)

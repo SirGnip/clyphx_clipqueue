@@ -2,7 +2,7 @@
 
 ### Summary
 (Note: This is currently just a personal project.  It is far from a polished
-product.  No promises are made about its ability to use used in multiple
+product.  No promises are made about its ability to be used in multiple
 situations.  But, give it a try!  I'd love to hear feedback!)
 
 This script for Ableton provides a way to author a sequence of ClyphX scripts in
@@ -33,7 +33,7 @@ selecting patch changes in Sunday Keys.
 - Have ClyphX installed and working in Ableton Live
 - Have Sunday Keys installed and working in Ableton Live
 - Do a `git checkout` of this repo in the folder where you installed the ClyphX scripts (usually something like C:\ProgramData\Ableton\Live 10 Intro\Resources\MIDI Remote Scripts\ClyphX)
-- Edit `MIDI Resource Scrits\ClyphX\ClyphXUserActions.py` and add the following lines to the bottom of the `__init__` method:
+- Edit `MIDI Resource Scripts\ClyphX\ClyphXUserActions.py` and add the following lines to the bottom of the `__init__` method:
 
 
         import sundaykeys_relative_patch_select.rel_patch_sel
